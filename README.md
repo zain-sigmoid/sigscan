@@ -101,7 +101,8 @@ sigscan file_path/file.py -o output.json
 ## 📘 CLI Usage
 ```bash
 usage: sigscan [-h] [-a ANALYZER] [--all-analyzers] [--parallel] [--include-low-confidence] [--timeout TIMEOUT]
-               [--max-findings MAX_FINDINGS] [-o FILE] [--compact] [--no-progress] [-v] [--list-analyzers]
+               [--max-findings MAX_FINDINGS] [-o FILE] [--compact] [--no-progress] [-v] [--quiet] [--logs] [--version]
+               [--list-analyzers]
                [path]
 
 Run signature scanning/analysis over a path with a configurable setup.
@@ -114,14 +115,19 @@ options:
   -a ANALYZER, --analyzer ANALYZER
                         Enable only these analyzers (repeatable, by name).
   --all-analyzers       Enable all available analyzers.
-  --parallel            For Parallel Execution of analyzers
+  --parallel            Does Parallel Processing for faster execution
   --include-low-confidence
-  --timeout TIMEOUT
+                        Includes findings with Low Confidence
+  --timeout TIMEOUT     Waiting time in sec, default 900
   --max-findings MAX_FINDINGS
+                        Finding threshold for individual analyzer, default 1000
   -o FILE, --out FILE   Write JSON result to FILE (no stdout on success).
   --compact             Minified JSON.
-  --no-progress
-  -v, --verbose
+  --no-progress         Hide Analyzer progress information
+  -v, --verbose         Use for checking error i.e. traceback
+  --quiet               Only show warnings and errors logs, hides info logs.
+  --logs                Print the previous saved logs from log file.
+  --version             Show the sigscan CLI version and exit.
   --list-analyzers      List available analyzers and exit.
 ```
 
