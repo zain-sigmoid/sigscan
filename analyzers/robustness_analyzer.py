@@ -8,12 +8,12 @@ import os
 import json
 import re
 import tempfile
-import logging
 import traceback
 import asyncio
 import ast
 from typing import List, Dict, Any, Optional, Tuple
 from collections import defaultdict, Counter
+from utils.logs_service.logger import AppLogger
 from utils.df_handling import collect_pandas_info, is_dataframe_expr
 from core.interfaces import QualityAnalyzer
 from core.file_utils import find_python_files
@@ -28,7 +28,7 @@ from core.models import (
     CodeLocation,
 )
 
-logger = logging.getLogger(__name__)
+logger = AppLogger.get_logger(__name__)
 
 
 class RobustnessAnalyzer(QualityAnalyzer):

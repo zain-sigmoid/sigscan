@@ -7,10 +7,10 @@ Analyzes SQL injection, XSS, command injection, and other injection attack vecto
 import os
 import re
 import logging
-from pathlib import Path
-from typing import List, Dict, Any, Optional, Set, Tuple
 import asyncio
 import traceback
+from utils.logs_service.logger import AppLogger
+from typing import List, Dict, Any
 from core.interfaces import SecurityAnalyzer
 from core.file_utils import find_python_files
 from core.models import (
@@ -24,7 +24,7 @@ from core.models import (
     CodeLocation,
 )
 
-logger = logging.getLogger(__name__)
+logger = AppLogger.get_logger(__name__)
 
 
 class InjectionAnalyzer(SecurityAnalyzer):
