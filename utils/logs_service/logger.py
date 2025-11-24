@@ -78,7 +78,7 @@ class AppLogger:
         console_handler = logging.StreamHandler()
         console_handler.setLevel(level)
 
-        console_format = "%(colored_levelname)s %(name)s | %(message)s"
+        console_format = "%(colored_levelname)s %(message)s"
         console_formatter = ColorFormatter(console_format)
         console_handler.setFormatter(console_formatter)
         root_logger.addHandler(console_handler)
@@ -93,10 +93,7 @@ class AppLogger:
             file_handler = logging.FileHandler(file_path, encoding="utf-8")
             file_handler.setLevel(logging.WARNING)
 
-            file_format = (
-                "%(asctime)s | %(levelname)-8s | %(name)s | "
-                "%(filename)s:%(lineno)d | %(message)s"
-            )
+            file_format = "%(asctime)s | %(levelname)-8s | %(message)s"
             file_formatter = logging.Formatter(
                 file_format,
                 datefmt="%Y-%m-%d %H:%M:%S",

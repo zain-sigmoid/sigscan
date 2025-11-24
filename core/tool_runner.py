@@ -7,8 +7,11 @@ import asyncio
 import subprocess
 import os
 import shutil
+from utils.logs_service.logger import AppLogger
 from typing import List, Optional, Dict, Any
 from pathlib import Path
+
+logger = AppLogger.get_logger(__name__)
 
 
 class ToolTimeoutError(Exception):
