@@ -7,6 +7,7 @@ scancode_report.json
 semgrep_output.json
 
 user_project/
+logs/
 project_run/RGM_econ_pyfiles/
 project_run/RGM_econ_pyfiles.zip
 setup_phase1.py

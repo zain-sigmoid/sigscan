@@ -12,22 +12,21 @@ import logging
 import re
 import json
 from typing import List
-from utils.prod_shift import Extract
 import zipfile
 import shutil
 import io
 import pandas as pd
+from utils.logs_service.logger import AppLogger
+from utils.logs_service.logs_view import LogsCheck
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(levelname)-8s | %(name)s | %(message)s"
+AppLogger.init(
+    level=logging.INFO,
+    log_to_file=True,
 )
-logging.getLogger("watchdog").setLevel(logging.WARNING)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
-logging.getLogger("PIL").setLevel(logging.WARNING)
-logger = logging.getLogger(__name__)
+logger = AppLogger.get_logger(__name__)
 
 # Import core components
+from utils.prod_shift import Extract
 from core.engine import UnifiedAnalysisEngine
 from utils.severity_mapping import Severity
 from core.models import (
@@ -354,7 +353,7 @@ class ConsolidatedCodeReviewApp:
             st.session_state.show_glossary = True
             st.rerun()
 
-        st.caption(f"🔖 Version:1.8.0")
+        st.caption(f"🔖 Version:1.8.1")
 
     def _run_analysis(
         self,
@@ -1667,10 +1666,21 @@ class ConsolidatedCodeReviewApp:
                 st.markdown(term["definition"])
 
 
-def main():
-    """Main application entry point."""
+def show_main_app():
     app = ConsolidatedCodeReviewApp()
     app.run()
+
+
+def main():
+    """Main application entry point."""
+    params = st.query_params
+    view = params.get("view", "")
+    if view == "logs":
+        st.set_page_config(page_title="SigScan Logs", page_icon="🧾", layout="wide")
+        if LogsCheck.check_admin_auth():
+            LogsCheck.show_logs_page()
+    else:
+        show_main_app()
 
 
 if __name__ == "__main__":
