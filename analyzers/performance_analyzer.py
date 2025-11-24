@@ -7,12 +7,12 @@ import ast
 import re
 import os
 import asyncio
-import logging
 import traceback
+from pathlib import Path
 from typing import List, Dict, Any
 from collections import defaultdict
-from pathlib import Path
 from core.file_utils import find_python_files
+from utils.logs_service.logger import AppLogger
 from utils.time_space_analyzer import ComplexityEstimator
 from core.interfaces import QualityAnalyzer
 from core.models import (
@@ -26,7 +26,7 @@ from core.models import (
     CodeLocation,
 )
 
-logger = logging.getLogger(__name__)
+logger = AppLogger.get_logger(__name__)
 
 
 class PerformanceAnalyzer(QualityAnalyzer):

@@ -7,9 +7,9 @@ Analyzes test structure, function coverage, and provides testability recommendat
 import os
 import ast
 import re
-import logging
 import asyncio
 from typing import List, Dict, Any, Set, Tuple
+from utils.logs_service.logger import AppLogger
 from core.interfaces import QualityAnalyzer
 from core.file_utils import find_python_files
 from core.models import (
@@ -23,7 +23,7 @@ from core.models import (
     CodeLocation,
 )
 
-logger = logging.getLogger(__name__)
+logger = AppLogger.get_logger(__name__)
 
 
 class TestabilityAnalyzer(QualityAnalyzer):
