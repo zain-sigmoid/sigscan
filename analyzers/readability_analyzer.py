@@ -7,10 +7,8 @@ Analyzes naming conventions, documentation, formatting, and code clarity.
 import os
 import subprocess
 import json
-import logging
 import statistics
 import asyncio
-import traceback
 from collections import Counter
 from typing import List, Dict, Any, Tuple
 from collections import defaultdict
@@ -185,7 +183,6 @@ class ReadabilityAnalyzer(QualityAnalyzer):
             )
 
         except Exception as e:
-            traceback.print_exc()
             logger.error(f"Readability analysis failed: {str(e)}")
             error_count += 1
             execution_time = asyncio.get_event_loop().time() - start_time
@@ -495,8 +492,7 @@ class ReadabilityAnalyzer(QualityAnalyzer):
             logger.warning("Pylint not found. Install with: pip install pylint")
             return []
         except Exception as e:
-            traceback.print_exc()
-            logger.warning(f"Error running Pylint on {file_path}: {str(e)}")
+            logger.error(f"Error running Pylint on {file_path}: {str(e)}")
             return []
 
     def _process_pylint_output(

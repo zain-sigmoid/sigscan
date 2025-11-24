@@ -8,7 +8,6 @@ import os
 import json
 import re
 import tempfile
-import traceback
 import asyncio
 import ast
 from typing import List, Dict, Any, Optional, Tuple
@@ -801,10 +800,9 @@ rules:
                             findings.append(finding)
 
             except UnicodeDecodeError:
-                logger.warning(f"File encoding error - could not read {file_path}")
+                logger.error(f"File encoding error - could not read {file_path}")
             except Exception as e:
-                traceback.print_exc()
-                logger.warning(f"Error reading file {file_path}: {str(e)}")
+                logger.error(f"Error reading file {file_path}: {str(e)}")
 
         return findings
 

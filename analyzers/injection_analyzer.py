@@ -6,9 +6,7 @@ Analyzes SQL injection, XSS, command injection, and other injection attack vecto
 
 import os
 import re
-import logging
 import asyncio
-import traceback
 from utils.logs_service.logger import AppLogger
 from typing import List, Dict, Any
 from core.interfaces import SecurityAnalyzer
@@ -172,7 +170,6 @@ class InjectionAnalyzer(SecurityAnalyzer):
             )
 
         except Exception as e:
-            traceback.print_exc()
             logger.error(f"Injection analysis failed: {str(e)}")
             error_count += 1
             execution_time = asyncio.get_event_loop().time() - start_time

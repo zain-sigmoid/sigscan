@@ -9,7 +9,6 @@ import subprocess
 import json
 import os
 import tempfile
-import traceback
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from collections import defaultdict
@@ -148,7 +147,6 @@ class HardcodedSecretsAnalyzer(SecurityAnalyzer):
             await asyncio.wait_for(proc.communicate(), timeout=10)
             return proc.returncode == 0
         except (asyncio.TimeoutError, subprocess.TimeoutExpired, FileNotFoundError):
-            traceback.print_exc()
             logger.error("Gitleaks error")
             return False
 
@@ -236,7 +234,6 @@ class HardcodedSecretsAnalyzer(SecurityAnalyzer):
             logger.error("Gitleaks scan timed out")
             return []
         except Exception as e:
-            traceback.print_exc()
             logger.error(f"Gitleaks scan failed: {str(e)}")
             return []
 
@@ -265,7 +262,6 @@ class HardcodedSecretsAnalyzer(SecurityAnalyzer):
         try:
             findings = self._create_unified_finding(grouped)
         except Exception as e:
-            traceback.print_exc()
             logger.error(f"Failed to transform Gitleaks result: {str(e)}")
 
         return findings

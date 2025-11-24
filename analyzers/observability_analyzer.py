@@ -8,7 +8,6 @@ import os
 import ast
 import re
 import asyncio
-import traceback
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 from utils.logs_service.logger import AppLogger
@@ -152,7 +151,6 @@ class ObservabilityAnalyzer(QualityAnalyzer):
             )
 
         except Exception as e:
-            traceback.print_exc()
             logger.error(f"Observability analysis failed: {str(e)}")
             error_count += 1
             execution_time = asyncio.get_event_loop().time() - start_time

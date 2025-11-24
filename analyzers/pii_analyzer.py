@@ -8,8 +8,6 @@ import os
 import re
 import ast
 import asyncio
-import logging
-import traceback
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from enum import Enum
@@ -407,8 +405,7 @@ class PIIAnalyzer(ComplianceAnalyzer):
                     )
 
         except Exception as e:
-            traceback.print_exc()
-            logger.warning(f"Error reading {file_path}: {str(e)}")
+            logger.error(f"Error reading {file_path}: {str(e)}")
         return findings
 
     async def _detect_patterns(

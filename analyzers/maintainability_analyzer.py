@@ -7,7 +7,6 @@ import os
 import ast
 import json
 import asyncio
-import traceback
 import hashlib
 from typing import List, Dict, Any
 from collections import defaultdict, Counter
@@ -181,7 +180,6 @@ class MaintainabilityAnalyzer(QualityAnalyzer):
 
         except Exception as e:
             # Radon not available - use manual complexity analysis
-            traceback.print_exc()
             logger.error(f"Problem in radon: {e}")
             logger.info("Falling back to manual complexity analysis")
             self._manual_complexity_analysis(path)
@@ -271,7 +269,6 @@ class MaintainabilityAnalyzer(QualityAnalyzer):
                         high_complexity_functions += 1
 
         except json.JSONDecodeError:
-            traceback.print_exc()
             pass
 
     def _get_file_loc(self, file_path):
@@ -466,7 +463,7 @@ class MaintainabilityAnalyzer(QualityAnalyzer):
                 )
 
         except Exception as e:
-            traceback.print_exc()
+            logger.error("problem in finding maintainability index")
 
     def _manual_complexity_analysis(self, path):
         """Manual complexity analysis when radon is not available."""

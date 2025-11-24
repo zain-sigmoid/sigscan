@@ -7,8 +7,6 @@ import os
 import subprocess
 import json
 import asyncio
-import logging
-import traceback
 from typing import List, Dict, Any
 from pathlib import Path
 from collections import defaultdict
@@ -154,7 +152,7 @@ class ComplianceAnalyzer(ComplianceAnalyzer):
             )
             await proc.wait()
         except subprocess.CalledProcessError:
-            traceback.print_exc()
+            logger.error("Probelm running in semgrep")
 
     def result_severity_mapping(self, license_name: str) -> str:
         mapping = {
@@ -186,6 +184,7 @@ class ComplianceAnalyzer(ComplianceAnalyzer):
 
         # Run ScanCode with output to file
         output_file = "scancode_report.json"
+        proc = None
         try:
             proc = await asyncio.create_subprocess_exec(
                 "scancode",
@@ -198,8 +197,15 @@ class ComplianceAnalyzer(ComplianceAnalyzer):
                 stderr=asyncio.subprocess.DEVNULL,
             )
             await proc.wait()
+        except asyncio.CancelledError:
+            if proc and proc.returncode is None:
+                proc.kill()
+                try:
+                    await proc.wait()
+                except Exception:
+                    pass
+            raise
         except subprocess.CalledProcessError as e:
-            traceback.print_exc()
             self.findings.append(
                 {
                     "type": "scancode_error",
@@ -407,7 +413,7 @@ class ComplianceAnalyzer(ComplianceAnalyzer):
             with open(json_path, "r") as f:
                 data = json.load(f)
         except Exception as e:
-            traceback.print_exc()
+            logger.error("problem in loading semgrep findings")
             self.findings.append(
                 {
                     "type": "semgrep_parse_error",

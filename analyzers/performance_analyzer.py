@@ -7,7 +7,6 @@ import ast
 import re
 import os
 import asyncio
-import traceback
 from pathlib import Path
 from typing import List, Dict, Any
 from collections import defaultdict
@@ -177,7 +176,6 @@ class PerformanceAnalyzer(QualityAnalyzer):
             self._check_regex_patterns(content, file_path)
 
         except Exception as e:
-            traceback.print_exc()
             logger.error(f"Error analyzing {file_path}: {str(e)}")
             self.findings.append(
                 {
