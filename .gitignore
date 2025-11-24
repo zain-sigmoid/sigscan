@@ -8,6 +8,7 @@ semgrep_output.json
 out.json
 
 docs/
+logs/
 user_project/
 assets/
 project_run/
