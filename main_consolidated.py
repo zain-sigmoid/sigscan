@@ -16,6 +16,7 @@ import zipfile
 import shutil
 import io
 import pandas as pd
+from termcolor import colored
 from utils.logs_service.logger import AppLogger
 from utils.logs_service.logs_view import LogsCheck
 
@@ -396,6 +397,17 @@ class ConsolidatedCodeReviewApp:
                     )
                     # Update the UI progress bar
                     progress_bar.progress(pct, text=label)
+                    if stage != "Analyzing":
+                        if "finished" in stage:
+                            color = "cyan"
+                        elif "running" in stage:
+                            color = "yellow"
+                        else:
+                            color = "light_blue"
+                        current_stage = colored(
+                            f"[{stage.title()}]", color, attrs=["bold"]
+                        )
+                        print(f"{current_stage} : {completed['n']}/{total_analyzers}")
 
                 return _cb
 
