@@ -1,4 +1,4 @@
-# 🔍 Code Review Tool
+# 🔍 Sigscan - Code Review Tool
 Unified analysis platform combining multiple security, quality, and compliance checkers for Streamlit-based workflows.
 
 ## ✨ Core Capabilities
