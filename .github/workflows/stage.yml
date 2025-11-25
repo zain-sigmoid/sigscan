@@ -1,0 +1,41 @@
+name: Mirror stage to sigscan-stage
+on:
+  push:
+    branches: [ stage ]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gstool@stage
+        uses: actions/checkout@v4
+        with:
+          ref: stage
+          fetch-depth: 0
+          
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          
+      - name: Configure SSH
+        env:
+          DEST_SSH_KEY: ${{ secrets.SIGSCAN_STAGE_DEPLOY_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "$DEST_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+          # Test SSH connection
+          ssh -T git@github.com || true
+          
+      - name: Push to sigscan-stage@main
+        run: |
+          # Commit changes in current repo
+          git add -A
+          git commit -m "Mirror from gstool@stage: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" || echo "No changes to commit"
+
+          # Push to destination repo
+          git remote add dest git@github.com:zain-sigmoid/sigscan-stage.git
+          git push -f dest stage:main
