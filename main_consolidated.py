@@ -1510,8 +1510,7 @@ class ConsolidatedCodeReviewApp:
                                     st.image(
                                         img,
                                         caption=f"Figure {i+1}",
-                                        use_container_width=True,
-                                        width=250,
+                                        width=420,
                                     )
                         else:  # single image
                             st.image(images)
