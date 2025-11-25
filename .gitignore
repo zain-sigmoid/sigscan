@@ -14,3 +14,5 @@ project_run/RGM_econ_pyfiles/
 project_run/RGM_econ_pyfiles.zip
 setup_phase1.py
 out.json
+
+logs/
